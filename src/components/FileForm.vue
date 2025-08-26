@@ -39,7 +39,8 @@ input[type="file"] {
   padding: 10px;
   margin: 5px;
   width: calc(100% - 20px);
-  max-width: 401px;
+  max-width: 41
+  1px;
 }
 
 button {
