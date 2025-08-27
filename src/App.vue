@@ -3,8 +3,8 @@
     <aside class="sidebar">
       <h2>Arquivo Escolar</h2>
       <ul>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Pesquisar</a></li>
+        <li><a href="#" @click.prevent="setComponent()">Dashboard</a></li>
+        <li><a href="#" @click.prevent="setComponent(searchFiles)">Pesquisar</a></li>
         <li><a href="#">Cadastrar</a></li>
       </ul>
     </aside>
@@ -56,6 +56,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import SearchBar from './components/SearchBar.vue'
 
 const files = ref([])
 const searchTerm = ref('')
