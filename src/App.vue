@@ -55,6 +55,7 @@
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
 
 const files = ref([])
 const searchTerm = ref('')
