@@ -4,23 +4,23 @@ import { Movimentacao } from "./Movimentacao";
 @Entity()
 export class Usuario {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  nome: string;
+  nome!: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column()
-  senha: string;
+  senha!: string;
 
   @Column({ default: "comum" })
-  tipo: "admin" | "comum";
+  tipo!: "admin" | "comum";
 
   @Column({ default: "ativo" })
-  status: "ativo" | "bloqueado";
+  status!: "ativo" | "bloqueado";
 
   @OneToMany(() => Movimentacao, movimentacao => movimentacao.usuario)
-  movimentacoes: Movimentacao[];
+  movimentacoes!: Movimentacao[];
 }
