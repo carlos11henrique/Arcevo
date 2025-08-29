@@ -23,7 +23,7 @@ export default {
       this.arquivo = e.target.files[0];
     },
     salvar() {
-      // lógica para salvar
+      // lógica para salvar (sem PDF)
     }
   }
 }
@@ -39,8 +39,6 @@ input[type="file"] {
   padding: 10px;
   margin: 5px;
   width: calc(100% - 20px);
-  max-width: 41
-  1px;
 }
 
 button {

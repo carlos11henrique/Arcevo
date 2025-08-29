@@ -1,6 +1,10 @@
 <template>
   <div class="search-box">
-    <input type="text" v-model="query" placeholder="Buscar por nome ou código..." />
+    <input 
+      type="text" 
+      v-model="query" 
+      placeholder="Buscar por nome ou código..." 
+    />
     <button @click="buscar">Buscar</button>
   </div>
 </template>
@@ -15,12 +19,12 @@ export default {
   },
   methods: {
     buscar() {
-      this.$emit('buscar', this.query);
+      this.$emit('buscar', this.query)
     }
   }
 }
 </script>
 
 <style>
-
+/* estilos opcionais */
 </style>

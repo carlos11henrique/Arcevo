@@ -1,96 +1,96 @@
 <template>
   <div class="app">
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
       <h2>Arquivo Escolar</h2>
       <ul>
-        <li><a href="#" @click.prevent="setComponent()">Dashboard</a></li>
-        <li><a href="#" @click.prevent="setComponent(searchFiles)">Pesquisar</a></li>
-        <li><a href="#">Cadastrar</a></li>
+        <li><a href="#" @click.prevent="currentView = 'dashboard'">Dashboard</a></li>
+        <li><a href="#" @click.prevent="currentView = 'search'">Pesquisar</a></li>
+        <li><a href="#" @click.prevent="currentView = 'cadastrar'">Cadastrar</a></li>
       </ul>
     </aside>
 
+    <!-- ===== MAIN CONTENT ===== -->
     <main class="main">
       <h1>Localizador de Arquivos</h1>
 
-      <div class="search-box">
-        <input
-          type="text"
-          v-model="searchTerm"
-          placeholder="Pesquisar por código ou nome..."
-        />
-        <button @click="searchFiles">🔍 Buscar</button>
+      <!-- DASHBOARD (busca + tabela) -->
+      <div v-if="currentView === 'dashboard'">
+        <div class="search-box">
+          <input
+            type="text"
+            v-model="searchTerm"
+            placeholder="Pesquisar por código ou nome..."
+          />
+          <button @click="searchFiles">🔍 Buscar</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Localização</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(file, index) in filteredFiles" :key="index">
+              <td>{{ file.code }}</td>
+              <td>{{ file.name }}</td>
+              <td>{{ file.location }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Nome</th>
-            <th>Localização</th>
-            <th>Download</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(file, index) in filteredFiles" :key="index">
-            <td>{{ file.code }}</td>
-            <td>{{ file.name }}</td>
-            <td>{{ file.location }}</td>
-            <td>
-              <a :href="file.pdfURL" :download="`${file.name}.pdf`">Baixar</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- CADASTRAR (formulário apenas) -->
+      <div v-else-if="currentView === 'cadastrar'">
+        <h2>Cadastrar Novo Arquivo</h2>
+        <form @submit.prevent="addFile">
+          <input v-model="newFile.code" placeholder="Código" required />
+          <input v-model="newFile.name" placeholder="Nome" required />
+          <input v-model="newFile.location" placeholder="Ex: Armário A1, Gaveta 3" required />
+          <button type="submit">Cadastrar</button>
+        </form>
+      </div>
 
-      <h2>Cadastrar Novo Arquivo</h2>
-      <form @submit.prevent="addFile">
-        <input v-model="newFile.code" placeholder="Código" required />
-        <input v-model="newFile.name" placeholder="Nome" required />
-        <input v-model="newFile.location" placeholder="Ex: Armário A1, Gaveta 3" required />
-        <input type="file" @change="handleFile" accept="application/pdf" required />
-        <button type="submit">Cadastrar</button>
-      </form>
+      <!-- PESQUISAR (somente busca, sem tabela) -->
+      <div v-else-if="currentView === 'search'">
+        <div class="search-box">
+          <input
+            type="text"
+            v-model="searchTerm"
+            placeholder="Pesquisar por código ou nome..."
+          />
+          <button @click="searchFiles">🔍 Buscar</button>
+        </div>
+      </div>
     </main>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import SearchBar from './components/SearchBar.vue'
 
+const currentView = ref('dashboard') // inicia no dashboard
 const files = ref([])
 const searchTerm = ref('')
+
 const newFile = ref({
   code: '',
   name: '',
-  location: '',
-  pdf: null
+  location: ''
 })
 
-function handleFile(event) {
-  newFile.value.pdf = event.target.files[0]
-}
-
 function addFile() {
-  if (!newFile.value.pdf) {
-    alert('Selecione um PDF.')
-    return
-  }
+  files.value.push({
+    code: newFile.value.code,
+    name: newFile.value.name,
+    location: newFile.value.location
+  })
 
-  const reader = new FileReader()
-  reader.onload = (e) => {
-    files.value.push({
-      code: newFile.value.code,
-      name: newFile.value.name,
-      location: newFile.value.location,
-      pdfURL: e.target.result
-    })
-
-    // Resetar formulário
-    newFile.value = { code: '', name: '', location: '', pdf: null }
-  }
-
-  reader.readAsDataURL(newFile.value.pdf)
+  // resetar formulário
+  newFile.value = { code: '', name: '', location: '' }
 }
 
 const filteredFiles = computed(() => {
@@ -102,10 +102,10 @@ const filteredFiles = computed(() => {
 })
 
 function searchFiles() {
-  // A busca já está reativa via computed
+  // já funciona reativo
 }
 </script>
 
-<style >
-
+<style>
+/* mantém o CSS global que já melhoramos */
 </style>
