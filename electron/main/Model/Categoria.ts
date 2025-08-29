@@ -4,16 +4,14 @@ import { Documento } from "./Documento";
 @Entity()
 export class Categoria {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ unique: true })
-  nome: string;
+  nome!: string;
 
   @Column({ nullable: true })
-  descricao: string;
+  descricao?: string;
 
   @OneToMany(() => Documento, documento => documento.categoria)
-  documentos: Documento[];
-
-  
+  documentos!: Documento[];
 }

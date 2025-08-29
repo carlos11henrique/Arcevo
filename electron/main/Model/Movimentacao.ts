@@ -5,20 +5,20 @@ import { Usuario } from "./Usuario";
 @Entity()
 export class Movimentacao {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @ManyToOne(() => Documento, documento => documento.movimentacoes)
-  documento: Documento;
+  documento!: Documento;
 
   @ManyToOne(() => Usuario, usuario => usuario.movimentacoes)
-  usuario: Usuario;
+  usuario!: Usuario;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  dataMovimentacao: Date;
+  dataMovimentacao!: Date;
 
   @Column()
-  tipo: "criação" | "mudança_local" | "empréstimo" | "devolução";
+  tipo!: "criação" | "mudança_local" | "empréstimo" | "devolução";
 
   @Column({ nullable: true })
-  observacao: string;
+  observacao!: string;
 }
