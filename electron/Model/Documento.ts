@@ -6,32 +6,32 @@ import { Movimentacao } from "./Movimentacao";
 @Entity()
 export class Documento {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  titulo: string;
+  titulo!: string;
 
   @Column({ unique: true })
-  codigo: string;
+  codigo!: string;
 
   @Column({ nullable: true })
-  descricao: string;
+  descricao?: string;
 
   @Column({ type: "date", nullable: true })
-  dataCriacao: Date;
+  dataCriacao?: Date;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  dataRegistro: Date;
+  dataRegistro!: Date;
 
   @Column({ default: "ativo" })
-  status: "ativo" | "arquivado" | "emprestado" | "perdido";
+  status!: "ativo" | "arquivado" | "emprestado" | "perdido";
 
-  @ManyToOne(() => Categoria, categoria => categoria.documentos)
-  categoria: Categoria;
+  @ManyToOne(() => Categoria, categoria => categoria.documentos, { nullable: false })
+  categoria!: Categoria;
 
-  @ManyToOne(() => Local, local => local.documentos)
-  local: Local;
+  @ManyToOne(() => Local, local => local.documentos, { nullable: false })
+  local!: Local;
 
   @OneToMany(() => Movimentacao, movimentacao => movimentacao.documento)
-  movimentacoes: Movimentacao[];
+  movimentacoes!: Movimentacao[];
 }

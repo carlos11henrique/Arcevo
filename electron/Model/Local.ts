@@ -4,23 +4,23 @@ import { Documento } from "./Documento";
 @Entity()
 export class Local {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  nome: string;
+  nome!: string;
 
   @Column()
-  tipo: string;
+  tipo!: string;
 
   @Column({ nullable: true, type: 'text' })
-  descricao: string;
+  descricao!: string;
 
   @ManyToOne(() => Local, local => local.subLocais, { nullable: true, eager: false })
-  pai: Local;
+  pai!: Local;
 
   @OneToMany(() => Local, local => local.pai, { eager: false })
-  subLocais: Local[];
+  subLocais!: Local[];
 
   @OneToMany(() => Documento, documento => documento.local, { eager: false })
-  documentos: Documento[];
+  documentos!: Documento[];
 }
